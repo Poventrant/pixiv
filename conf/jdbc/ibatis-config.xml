@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig 
+    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<properties resource="jdbc/config.properties" />
+
+	<settings cacheModelsEnabled="false" enhancementEnabled="true"
+		lazyLoadingEnabled="false" errorTracingEnabled="true" useStatementNamespaces="true" />
+
+	<transactionManager type="JDBC">
+		<dataSource type="DBCP">
+			<!-- JDBC连接需要的配置 -->
+			<property name="JDBC.Driver" value="${db.driver}" />
+			<property name="JDBC.ConnectionURL" value="${db.url}" />
+			<property name="JDBC.Username" value="${db.user}" />
+			<property name="JDBC.Password" value="${db.pass}" />
+
+			<!-- 连接池配置 -->
+			<property name="Pool.MaximumActiveConnections" value="200" />
+			<property name="Pool.MaximumIdleConnections" value="100" />
+			<property name="Pool.MaximumWait" value="10000" />
+			<property name="Pool.ValidationQuery" value="select now()" />
+		</dataSource>
+	</transactionManager>
+
+	<sqlMap resource="jdbc/tables/pixiv.xml" />
+</sqlMapConfig>

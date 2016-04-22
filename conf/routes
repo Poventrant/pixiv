@@ -1,0 +1,33 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       staticFile:/public/index.html
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Map static resources from the /app/public folder to the /public path
+GET     /scripts/                               staticDir:public/scripts
+GET     /styles/                                staticDir:public/styles
+GET     /images/                                staticDir:public/images
+GET     /views/                                 staticDir:public/views
+GET     /bower_components/                      staticDir:public/bower_components
+GET     /pixiv/images/                           staticDir:download/pixiv #pixiv_test
+
+#pixiv图片
+GET 			/queryByPage  	        PixivController.queryByPage
+GET 			/getAuthors				PixivController.getAuthors
+DELETE 			/deleteByAuthor  	        PixivController.deleteByAuthor
+DELETE 			/deleteAll  	            PixivController.deleteAll
+POST 			/create 				    PixivController.saveOrUpdate
+POST 			/update                  	PixivController.saveOrUpdate
+GET             /find                     PixivController.find
+POST            /setPixivCookie           PixivController.setPixivCookie
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

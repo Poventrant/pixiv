@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC
+        "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="models.Pixiv">
+    <typeAlias alias="string" type="java.lang.String" />
+    <typeAlias alias="int" type="java.lang.Integer" />
+    <typeAlias alias="Integer" type="java.lang.Integer" />
+    <typeAlias alias="Boolean" type="java.lang.Boolean" />
+    <typeAlias alias="Date" type="java.util.Date" />
+    <typeAlias alias="Double" type="java.lang.Double" />
+    <typeAlias alias="double" type="java.lang.Double" />
+    <typeAlias alias="short" type="java.lang.Short" />
+    <typeAlias alias="short" type="java.lang.Short" />
+
+    <resultMap id="pixiv" class="models.Pixiv">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="size" column="size" />
+        <result property="masterPath" column="master_path"/>
+        <result property="savePath" column="save_path" />
+        <result property="createTime" column="create_time" />
+        <result property="rate" column="rate" />
+        <result property="isdelete" column="isdelete" />
+        <result property="originHref" column="origin_href" />
+        <result property="author" column="author" />
+        <result property="picid" column="picid" />
+        <result property="picno" column="picno" />
+    </resultMap>
+
+    <sql id="where">
+        <dynamic prepend=" and ">
+            <isNotNull removeFirstPrepend="true" prepend="and" property="name">
+                pixiv.name = #name#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="size">
+                pixiv.size = #size#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="savePath">
+                pixiv.save_path = #savePath#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="createTime">
+                pixiv.create_time = #createTime#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="rate">
+                pixiv.rate = #rate#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="isdelete">
+                pixiv.isdelete = #isdelete#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="originHref">
+                pixiv.origin_href = #originHref#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="author">
+                pixiv.author = #author#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="picid">
+                pixiv.picid = #picid#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="masterPath">
+                pixiv.master_path = #masterPath#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="and" property="picno">
+                pixiv.picno = #picno#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="like">
+        <dynamic prepend=" or ">
+            <isNotNull removeFirstPrepend="true" prepend="or" property="name">
+                pixiv.name like #name#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="or" property="rate">
+                pixiv.rate like #rate#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="or" property="originHref">
+                pixiv.origin_href like #originHref#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="query" parameterClass="java.util.Map" resultMap="pixiv">
+        select pixiv.*
+        from ar_pixiv pixiv
+        where 1=1
+        <include refid="where" />
+        <dynamic prepend=" ORDER BY ">
+            <isNotEmpty property="order_rate">
+                pixiv.rate $order_rate$
+            </isNotEmpty>
+            <isNotEmpty property="order_size">
+                pixiv.size $order_size$
+            </isNotEmpty>
+            <isNotEmpty property="order_createTime">
+                pixiv.create_time $order_createTime$
+            </isNotEmpty>
+            <isNotEmpty property="order_picid">
+                pixiv.picid $order_picid$
+            </isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" ">
+            <isNotNull removeFirstPrepend="true" prepend=" " property="limit">
+                limit $limit$
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend=" " property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="search" parameterClass="java.util.Map" resultMap="pixiv">
+        select pixiv.*
+        from ar_pixiv pixiv
+        where 1=2
+        <include refid="like" />
+        <dynamic prepend=" ORDER BY ">
+            <isNotEmpty property="order_originHref">
+                pixiv.origin_href $order_originHref$
+            </isNotEmpty>
+            <isNotEmpty property="order_name">
+                pixiv.name $order_name$
+            </isNotEmpty>
+            <isNotEmpty property="order_size">
+                pixiv.size $order_size$
+            </isNotEmpty>
+            <isNotEmpty property="order_createTime">
+                pixiv.create_time $order_createTime$
+            </isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" ">
+            <isNotNull removeFirstPrepend="true" prepend=" " property="limit">
+                limit $limit$
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend=" " property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="find" parameterClass="int" resultMap="pixiv">
+        select * from
+        ar_pixiv where id = #id#
+    </select>
+
+    <insert id="create" parameterClass="models.Pixiv">
+        insert into ar_pixiv (id, name, size, master_path, save_path,
+        create_time, rate,isdelete, author, origin_href, picid, picno)
+        values (#id#, #name#, #size#, #masterPath#, #savePath#, #createTime#,
+        #rate#, #isdelete#, #author#,#originHref#, #picid#, #picno#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterClass="int">
+        delete from
+        ar_pixiv where id = #id#
+    </delete>
+
+    <update id="update" parameterClass="models.Pixiv">
+        update ar_pixiv
+        <dynamic prepend="set ">
+
+            <isNotNull removeFirstPrepend="true" prepend="," property="name">
+                `name` = #name#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="size">
+                `size` = #size#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="savePath">
+                `save_path` = #savePath#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="rate">
+                `rate` = #rate#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="isdelete">
+                `isdelete` = #isdelete#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="author">
+                `author` = #author#
+            </isNotNull>
+            <isNotNull removeFirstPrepend="true" prepend="," property="originHref">
+                `origin_href` = #originHref#
+            </isNotNull>
+        </dynamic>
+        where id=#id#
+    </update>
+
+    <select id="count" parameterClass="java.util.Map" resultClass="int">
+        select count(*)
+        from ar_pixiv pixiv where 1=1
+        <include refid="where"/>
+    </select>
+
+    <select id="selectBySql" resultClass="string"
+            remapResults="true"
+            parameterClass="java.util.Map">
+        <isNotEmpty property="sql">$sql$</isNotEmpty>
+    </select>
+
+    <delete id="deleteBySql"
+            parameterClass="java.util.Map">
+        <isNotEmpty property="sql">$sql$</isNotEmpty>
+    </delete>
+
+</sqlMap>

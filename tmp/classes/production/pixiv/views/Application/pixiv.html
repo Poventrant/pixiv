@@ -1,0 +1,115 @@
+
+<style>
+	input[type=radio] {
+		width:16px !important;
+		height:16px !important;
+		float: left !important;
+		margin-top:2px;
+		margin-right:4px;
+	}
+	.type-form {
+		vertical-align: middle !important;
+		margin-top:5px;
+	}
+	.pixiv-items-wrapper>div {
+		margin-top:20px;
+	}
+	.pixiv-item {
+		position: relative;
+		overflow: hidden;
+		padding:10px;
+		float:none !important;
+		display: inline-block;
+		width: 23% !important;
+	}
+	.pixiv-item-mask {
+		position: absolute;
+		z-index:2;
+		top:1000px;
+		left:0px;
+		width:100%;
+		height:100%;
+		background: #333333;
+		opacity: 0.7;
+		transition:top 0.3s;
+		-moz-transition:top 0.3s; /* Firefox 4 */
+		-webkit-transition:top 0.3s; /* Safari and Chrome */
+		-o-transition:top 0.3s; /* Opera */
+		color:#254BE2 !important;
+	}
+	.pixiv-items-wrapper>div:hover .pixiv-item-mask {
+		top:0px;
+	}
+	.pagination a {
+		cursor:pointer;
+	}
+	.pagination a:hover {
+		background:#1AB394 !important;
+		color: #FFF !important;
+	}
+	.pagination>.active>a {
+		background:#1AB394 !important;
+		color: #FFF;
+	}
+	#add-btn-wrap {
+		position:fixed;
+		top:50%;
+		margin-top:-50px;
+		right:0px;
+		border-radius: 8px;
+		padding:10px;
+	}
+    .mutiple_pic {
+        border-bottom:solid 2px rgba(109, 109, 109, 0.22);
+        box-sizing: border-box;
+    }
+</style>
+<nav></nav>
+<form class="form-inline row">
+	<div class="form-group col-md-2 type-form">
+		<label class="control-label">
+			<input type="radio" class="form-control" name="type" value="authorType" ng-model="querys.mod">作者</label>
+
+	</div>
+	<div class="form-group col-md-5" ng-show="querys.mod == 'authorType'">
+		<label class="control-label">作者</label>
+		<select class="form-control" name="" ng-model="querys.author" ng-options="item for item in authors"></select>
+	</div>
+	<div class="form-group col-md-3" ng-show="querys.mod == 'rankType'">
+		<label class="control-label">排行</label>
+		<select class="form-control" name="" id=""></select>
+	</div>
+	<div class="form-group col-md-3">
+		<label class="control-label">排序</label>
+		<select class="form-control" name="" ng-model="querys.sort" ng-options="item.value as item.text for item in sorts"></select>
+	</div>
+	<div class="form-group col-md-2">
+		<button type="button" class="btn btn-primary btn-block" ng-click="toSelect()">
+			<span class="glyphicon glyphicon-search"></span>
+			筛选
+		</button>
+	</div>
+</form>
+
+<div class="row pixiv-items-wrapper">
+	<div class="col-md-3 pixiv-item {{pixiv.picno>1? 'mutiple_pic': ''}}" ng-repeat="pixiv in pixivList">
+		<div class="text-center">
+			<img ng-src="{{pixiv.masterPath}}" ng-alt="{{pixiv.name}}"></div>
+		<a class="pixiv-item-mask" href="/#/pixiv/origin/{{pixiv.savePath | mutipleFilter}}/{{pixiv.picno}}" target="_blank">
+			<h4 class="text-center">标题 -- {{pixiv.name}}</h4>
+			<h4 class="text-center">画家 -- {{pixiv.author}}</h4>
+			<h4 class="text-center">评分 -- {{pixiv.rate}}</h4>
+            <h4 class="text-center">属性 -- {{pixiv.size}}</h4>
+		</a>
+	</div>
+</div>
+<div class="text-center">
+	<ul class="pagination">
+		<li ng-class="page.active" ng-click="toNew(page.target)" ng-repeat="page in pages">
+			<a>{{page.text}}</a>
+		</li>
+	</ul>
+</div>
+<div id="add-btn-wrap">
+	<a href="/#/pixiv/add">添加画作</a>
+</div>

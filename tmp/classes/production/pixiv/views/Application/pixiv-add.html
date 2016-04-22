@@ -1,0 +1,115 @@
+
+<style>
+    .over_lay_wrapper {
+        width:10000px;
+        height:1000px;
+        position: fixed;
+        background: black;
+        opacity:0.7;
+        z-index:1000;
+        left:-10px;
+        top:-10px;
+    }
+    .mycenter>div {
+        float:none;
+    }
+    #pixiv_cookie_form{
+        background: #FFF;
+        padding-top:20px;
+        position: relative;
+        border-radius:2px;
+        display: block;
+        width:450px;
+        heigth:170px;
+        position: fixed;
+        left:50%;
+        top:50%;
+        margin-left:-225px;
+        margin-top:-100px;
+        z-index: 1001;
+    }
+    .over_lay_close {
+        position: absolute;
+        z-index: 1002;
+        border-radius:50%;
+        background: black;
+        padding:8px;
+        opacity:0.9;
+        right:-16px;
+        top:-16px;
+        font-size:18px;
+        color:#FFF;
+        cursor:pointer;
+        transition: background .3s;
+    }
+    .over_lay_close:hover{
+        background: red;
+    }
+</style>
+<div class="container">
+	<form class="form-inline row form-group">
+	    <div class="form-group col-md-6">
+	    	<label class="control-label">作者</label>
+			<input type="text" class="form-control" ng-model="authorId" placeholder="请输入P站作者ID">
+	    </div>
+	    <div class="form-group col-md-2">
+	    	<button type="button" class="btn btn-primary btn-block" ng-click="doAdd()">
+	    		<span class="glyphicon glyphicon-download-alt"></span> 下载添加
+	    	</button>
+		</div>
+	</form>
+
+    <form class="form-inline row form-group">
+        <div class="form-group col-md-6">
+            <label class="control-label">作者</label>
+            <select class="form-control" ng-model="author" ng-options="item for item in authors"></select>
+        </div>
+        <div class="form-group col-md-2">
+            <button type="button" class="btn btn-primary btn-block" ng-click="doDelete()">
+                <span class="glyphicon glyphicon-remove"></span> 删除该作者
+            </button>
+        </div>
+    </form>
+
+    <form class="form-inline row form-group">
+        <div class="form-group col-md-2">
+            <button type="button" class="btn btn-primary btn-block" ng-click="doAllDelete()">
+                <span class="glyphicon glyphicon-remove"></span> 删除全部
+            </button>
+        </div>
+    </form>
+
+    <div class="btn btn-primary" ng-click="resetPixivLoginCookie()">重置pixiv登录COOKIE</div>
+
+    <div class="float_elements" ng-init="overLay=false">
+        <div class="over_lay_wrapper" ng-show="overLay"></div>
+        <div id="pixiv_cookie_form" class="clearfix" ng-show="overLay">
+            <div class="over_lay_close glyphicon glyphicon-remove" ng-click="closeOverLay()"></div>
+            <div class="col-md-12">
+                <form action="" class="form-horizontal">
+                    <div class="form-group text-center text-warning">
+                        <h4>如果登录超时，说明被墙掉，或者是之前设置的cookie过期了</h4>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" ng-model="pixiv.sessid" required
+                                   id="PHPSESSID" placeholder="请输入PIXIV网站上面登录之后的COOKIE--PHPSESSID">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" ng-model="pixiv.token" required
+                                   id="device_token" placeholder="请输入PIXIV网站上面登录之后的COOKIE--device_token">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 mycenter">
+                            <button type="button" class="btn btn-primary center-block" ng-click="setPixivCookie()">设置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
