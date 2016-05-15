@@ -1,18 +1,31 @@
-/**
- *
- * Created by Kaze on 2/10/14.
- */
 'use strict';
 angular.module('mainApp')
-	.factory('PixivResource', function(baseResource) {
+	.factory('PixivResource', function(BaseResource) {
 		var resourceType = 'pixiv';
-		return baseResource(resourceType, {
+		return BaseResource(resourceType, {
 			queryByPage: {
 				method: 'GET',
 				url: resourceType + '/queryByPage'
+			},
+			deleteByAuthor: {
+				method: 'delete',
+				url: resourceType + '/deleteByAuthor'
+			},
+			getAuthors: {
+				method: 'get',
+				url: resourceType + '/getAuthors'
+			},
+			deleteAll: {
+				method: 'delete',
+				url: resourceType + '/deleteAll'
+			},
+			setPixivCookie: {
+				method: 'post',
+				url: resourceType + '/setPixivCookie'
 			}
 		});
-	}).factory("PixivPageUtil", function() {
+	})
+	.factory("PixivPageUtil", function() {
 		return function(pm) {
 			var pages = [];
 			if (pm.hasPrePage) {
@@ -47,33 +60,33 @@ angular.module('mainApp')
 			return pages;
 		}
 	}).factory("PixivUrlUtil", function($location) {
-		return function(param) {
-			var base = "/#/pixiv";
-			var handler = function(value, key, baseUrl) {
-				if (baseUrl == '') {
-					return "?" + key + "=" + value;
-				}
-				var reg = "([/?]|&)" + key + "=([^&]*)(&|$)";
-				var res = baseUrl.match(reg);
-				if (res == null) {
-					return baseUrl + "&" + key + "=" + value;
-				} else {
-					var tempReg = new RegExp(key + "=([^&]*)");
-					return baseUrl.replace(tempReg, key + "=" + value);
-				}
+	return function(param) {
+		var base = "/#/pixiv";
+		var handler = function(value, key, baseUrl) {
+			if (baseUrl == '') {
+				return "?" + key + "=" + value;
 			}
-			if(Object.prototype.toString.apply(param) === "[object Array]") {
-			   	var temp = $location.$$url.substr(6);
-				for(var i = 0; i < param.length; ++ i) {
-					if(Object.prototype.toString.apply(param[i]) !== "[object Object]") {
-						return null;
-					}
-					temp = handler(param[i].value, param[i].text, temp);
-				}
-				return base + temp;
-			} else if(Object.prototype.toString.apply(param) === "[object Object]"){
-				return  base + handler(param.value, param.text, $location.$$url.substr(6));
-			} 
-			return null;
+			var reg = "([/?]|&)" + key + "=([^&]*)(&|$)";
+			var res = baseUrl.match(reg);
+			if (res == null) {
+				return baseUrl + "&" + key + "=" + value;
+			} else {
+				var tempReg = new RegExp(key + "=([^&]*)");
+				return baseUrl.replace(tempReg, key + "=" + value);
+			}
 		}
-	});
+		if(Object.prototype.toString.apply(param) === "[object Array]") {
+			var temp = $location.$$url.substr(6);
+			for(var i = 0; i < param.length; ++ i) {
+				if(Object.prototype.toString.apply(param[i]) !== "[object Object]") {
+					return null;
+				}
+				temp = handler(param[i].value, param[i].text, temp);
+			}
+			return base + temp;
+		} else if(Object.prototype.toString.apply(param) === "[object Object]"){
+			return  base + handler(param.value, param.text, $location.$$url.substr(6));
+		}
+		return null;
+	}
+});

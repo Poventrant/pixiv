@@ -63,7 +63,7 @@ angular.module("mainApp").controller('pixivCtrl',
 			} else {
 				UtilService.alert('提示', res.msg);
 			}
-		})
+		});
 
 
 		$scope.toNew = function(target) {
@@ -72,7 +72,7 @@ angular.module("mainApp").controller('pixivCtrl',
 				text: "page"
 			});
 			location.href = link;
-		}
+		};
 
 		$scope.toSelect = function(target) {
 			var link = PixivUrlUtil([{
@@ -90,4 +90,4 @@ angular.module("mainApp").controller('pixivCtrl',
 			}]);
 			location.href = link;
 		}
-	})
+	});

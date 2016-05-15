@@ -1,8 +1,8 @@
 'use strict';
 angular.module('mainApp')
-	.factory('PixivResource', function(baseResource) {
+	.factory('PixivResource', function(BaseResource) {
 		var resourceType = 'pixiv';
-		return baseResource(resourceType, {
+		return BaseResource(resourceType, {
 			queryByPage: {
 				method: 'GET',
 				url: resourceType + '/queryByPage'

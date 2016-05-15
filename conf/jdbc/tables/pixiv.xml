@@ -83,7 +83,7 @@
 
     <select id="query" parameterClass="java.util.Map" resultMap="arPixiv">
         select pixiv.*
-        from ar_pixiv pixiv
+        from pixiv pixiv
         where 1=1
         <include refid="where" />
         <dynamic prepend=" ORDER BY ">
@@ -112,7 +112,7 @@
 
     <select id="search" parameterClass="java.util.Map" resultMap="arPixiv">
         select pixiv.*
-        from ar_pixiv pixiv
+        from pixiv pixiv
         where 1=2
         <include refid="like" />
         <dynamic prepend=" ORDER BY ">
@@ -141,26 +141,23 @@
 
     <select id="find" parameterClass="int" resultMap="arPixiv">
         select * from
-        ar_pixiv where id = #id#
+        pixiv where id = #id#
     </select>
 
     <insert id="create" parameterClass="models.Pixiv">
-        insert into ar_pixiv (id, name, size, master_path, save_path,
-        create_time, rate,isdelete, author, origin_href, picid, picno)
-        values (#id#, #name#, #size#, #masterPath#, #savePath#, #createTime#,
+        insert into pixiv (name, size, master_path, save_path,
+        create_time, rate, isdelete, author, origin_href, picid, picno)
+        values ( #name#, #size#, #masterPath#, #savePath#, #createTime#,
         #rate#, #isdelete#, #author#,#originHref#, #picid#, #picno#)
-        <selectKey resultClass="int" keyProperty="id">
-            SELECT LAST_INSERT_ID() AS id
-        </selectKey>
     </insert>
 
     <delete id="delete" parameterClass="int">
         delete from
-        ar_pixiv where id = #id#
+        pixiv where id = #id#
     </delete>
 
     <update id="update" parameterClass="models.Pixiv">
-        update ar_pixiv
+        update pixiv
         <dynamic prepend="set ">
 
             <isNotNull removeFirstPrepend="true" prepend="," property="name">
@@ -190,7 +187,7 @@
 
     <select id="count" parameterClass="java.util.Map" resultClass="int">
         select count(*)
-        from ar_pixiv pixiv where 1=1
+        from pixiv pixiv where 1=1
         <include refid="where"/>
     </select>
 

@@ -15,7 +15,7 @@ public class PixivDao extends BaseDao<Pixiv> {
         List<String> res = null;
         try {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("sql", "select pixiv.author from ar_pixiv pixiv group by pixiv.author");
+            map.put("sql", "select p.author from pixiv p group by p.author");
             res = sqlMapClient.queryForList(sqlName, map);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -40,7 +40,7 @@ public class PixivDao extends BaseDao<Pixiv> {
         String sqlName = namespace + ".deleteBySql";
         try {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("sql", "delete from ar_pixiv where author = '" + author + "'");
+            map.put("sql", "delete from pixiv where author = '" + author + "'");
             sqlMapClient.delete(sqlName, map);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -52,7 +52,7 @@ public class PixivDao extends BaseDao<Pixiv> {
         String sqlName = namespace + ".deleteBySql";
         try {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("sql", "delete from ar_pixiv where 1 = 1");
+            map.put("sql", "delete from pixiv where 1 = 1");
             sqlMapClient.delete(sqlName, map);
         } catch (SQLException e) {
             throw new RuntimeException(e);

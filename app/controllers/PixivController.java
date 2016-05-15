@@ -9,7 +9,6 @@ import services.PixivService;
 import utils.PixivCrawler;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +37,8 @@ public class PixivController extends Controller {
                 Logger.error("作者ID不能为空");
                 throw new Exception("作者ID不能为空.");
             }
-            PixivCrawler putil = new PixivCrawler();
-//            putil.doGetByAuthorAync();
+            PixivCrawler.setService(pixivService);
+            PixivCrawler.doStart(authorId);
             returnMap.put("msg", "正在下载中，请等待...");
             renderJSON(returnMap);
         } catch (Exception e) {
@@ -47,12 +46,6 @@ public class PixivController extends Controller {
             returnMap.put("msg", e.getMessage());
             renderJSON(returnMap);
         }
-       /* List<String> list = PixivCrawler.getAuthorIdList();
-        for(String authorId: list){
-            PixivCrawler putil = new PixivCrawler(authorId, pixivService);
-            putil.getByAuthorAync();
-        }
-        renderJSON(returnMap);*/
     }
 
     public static void deleteByAuthor(String author){

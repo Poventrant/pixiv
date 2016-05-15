@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Singleton
 public class Pixiv extends Model{
-    private Long id;
     private String name;
     private String size;
     private String masterPath;

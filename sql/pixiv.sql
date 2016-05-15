@@ -5,7 +5,7 @@ CREATE DATABASE pixiv;
 SET FOREIGN_KEY_CHECKS=0;
 USE pixiv;
 -- ----------------------------
--- Table structure for ar_pixiv
+-- Table structure for pixiv
 -- ----------------------------
 DROP TABLE IF EXISTS `pixiv`;
 CREATE TABLE `pixiv` (

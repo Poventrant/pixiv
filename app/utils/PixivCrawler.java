@@ -2,34 +2,10 @@
 package utils;
 
 import models.Pixiv;
-import org.apache.http.*;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.entity.GzipDecompressingEntity;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.ExecutionContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,15 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.PixivService;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.*;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -314,6 +283,12 @@ public class PixivCrawler {
 
     public static final WorkerQueue WORK_QUEUE = new WorkerQueue(POOL_SIZE);
 
+    public static void setService(PixivService pixivService) {
+        if(PixivCrawler.pixivService == null) {
+            PixivCrawler.pixivService = pixivService;
+        }
+    }
+
     static class AuthorWorker extends Thread {
 
         private AtomicInteger totalDownloaded;
@@ -429,6 +404,13 @@ public class PixivCrawler {
 
     }
 
+    public static void doStart(String authorId) {
+        DefaultHttpClient httpClient = PixivCrawlerUtil.getHttpClient();
+        PixivCrawlerUtil.login(httpClient, "296306654@qq.com", "PWQ2080064");
+
+        new AuthorWorker(authorId).start();
+    }
+
     public static void main(String[] args) {
 
         try {
@@ -443,13 +425,6 @@ public class PixivCrawler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       /* EXECUTOR.shutdown();
-        try {
-            EXECUTOR.awaitTermination(10L, TimeUnit.MILLISECONDS);
-            System.out.println("All done!!!!!!!!!");
-        } catch (InterruptedException e) {
-        }*/
     }
 
 

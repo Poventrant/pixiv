@@ -66,7 +66,7 @@ angular.module('mainApp')
     /*
      * 统一全部 RESTful 资源加载方式
      */
-    .factory('baseResource', function ($resource, transformRequestAsFormPostUtil, transformResponseCheckLoginUtil) {
+    .factory('BaseResource', function ($resource, transformRequestAsFormPostUtil, transformResponseCheckLoginUtil) {
         return function (resourceType, extActions) {
             // 重写 action
             var actions = {

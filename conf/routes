@@ -20,14 +20,14 @@ GET     /bower_components/                      staticDir:public/bower_component
 GET     /pixiv/images/                           staticDir:download/pixiv #pixiv_test
 
 #pixiv图片
-GET 			/queryByPage  	        PixivController.queryByPage
-GET 			/getAuthors				PixivController.getAuthors
-DELETE 			/deleteByAuthor  	        PixivController.deleteByAuthor
-DELETE 			/deleteAll  	            PixivController.deleteAll
-POST 			/create 				    PixivController.saveOrUpdate
-POST 			/update                  	PixivController.saveOrUpdate
-GET             /find                     PixivController.find
-POST            /setPixivCookie           PixivController.setPixivCookie
+GET 			/pixiv/queryByPage  	        PixivController.queryByPage
+GET 			/pixiv/getAuthors				PixivController.getAuthors
+DELETE 			/pixiv/deleteByAuthor  	        PixivController.deleteByAuthor
+DELETE 			/pixiv/deleteAll  	            PixivController.deleteAll
+POST 			/pixiv/create 				    PixivController.saveOrUpdate
+POST 			/pixiv/update                  	PixivController.saveOrUpdate
+GET             /pixiv/find                     PixivController.find
+POST            /pixiv/setPixivCookie           PixivController.setPixivCookie
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

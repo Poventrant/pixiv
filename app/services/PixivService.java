@@ -15,8 +15,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PixivService extends BaseService<Pixiv>{
+
+    PixivDao pixivDao;
+
     @Inject
-    PixivDao dao;
+    PixivService(PixivDao pixivDao) {
+        this.pixivDao = pixivDao;
+        dao = pixivDao;
+    }
 
     private static int PAGE_ITEMS = 20, PAGE_WIDTH = 7;
 
@@ -25,7 +31,7 @@ public class PixivService extends BaseService<Pixiv>{
     }
 
     public String [] getAuthors(boolean moren) {
-        return dao.getAuthors(moren);
+        return pixivDao.getAuthors(moren);
     }
 
     public List<Pixiv> queryByPage(Map<String, String> paramsMap, Map<String, Object> returnMap) throws Exception {
@@ -81,7 +87,7 @@ public class PixivService extends BaseService<Pixiv>{
         }
         try {
             PixivCrawler.deleteAuthor(authorId);
-            dao.deleteByAuthor(author);
+            pixivDao.deleteByAuthor(author);
         } catch (Exception e) {
             throw e;
         }
@@ -89,7 +95,7 @@ public class PixivService extends BaseService<Pixiv>{
 
     public void deleteAll() throws Exception {
         try {
-            dao.deleteAll();
+            pixivDao.deleteAll();
         } catch (Exception e) {
             throw e;
         }

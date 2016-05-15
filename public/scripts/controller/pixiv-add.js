@@ -13,7 +13,7 @@ angular.module("mainApp").controller('pixivAddCtrl',
 		PixivResource.getAuthors({}).$promise.then(function(res) {
 			$scope.authors = res.authors;
 			$scope.author = $scope.authors[0];
-		})
+		});
 
 		$scope.doAdd = function() {
 			PixivResource.put({
@@ -21,7 +21,7 @@ angular.module("mainApp").controller('pixivAddCtrl',
 			}).$promise.then(function(res) {
 				UtilService.alert('提示', res.msg);
 			})
-		}
+		};
 
 		$scope.doDelete = function() {
 			if(!confirm("你确定要删除吗？")) return false;
@@ -34,7 +34,7 @@ angular.module("mainApp").controller('pixivAddCtrl',
 					UtilService.alert('提示', res.msg);
 				}
 			})
-		}
+		};
 
 		$scope.doAllDelete = function() {
 			if(!confirm("你确定要全部删除吗？")) return false;
@@ -46,15 +46,15 @@ angular.module("mainApp").controller('pixivAddCtrl',
 					UtilService.alert('提示', res.msg);
 				}
 			})
-		}
+		};
 
 		$scope.resetPixivLoginCookie = function() {
 			$scope.overLay = true;
-		}
+		};
 
 		$scope.closeOverLay = function() {
 			$scope.overLay = false;
-		}
+		};
 
 		$scope.pixiv = {};
 		$scope.setPixivCookie = function() {
@@ -69,4 +69,4 @@ angular.module("mainApp").controller('pixivAddCtrl',
 			})
 		}
 
-	})
+	});
