@@ -406,7 +406,7 @@ public class PixivCrawler {
 
     public static void doStart(String authorId) {
         DefaultHttpClient httpClient = PixivCrawlerUtil.getHttpClient();
-        PixivCrawlerUtil.login(httpClient, "296306654@qq.com", "PWQ2080064");
+        PixivCrawlerUtil.login(httpClient, "", "");
 
         new AuthorWorker(authorId).start();
     }
