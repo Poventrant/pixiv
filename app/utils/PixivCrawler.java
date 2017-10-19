@@ -415,7 +415,7 @@ public class PixivCrawler {
 
         try {
             DefaultHttpClient httpClient = PixivCrawlerUtil.getHttpClient();
-            PixivCrawlerUtil.login(httpClient, "296306654@qq.com", "PWQ2080064");
+            PixivCrawlerUtil.login(httpClient, "", "");
 
             List<String> authors = Arrays.asList("133714504");
 
